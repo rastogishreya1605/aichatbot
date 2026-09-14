@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import StreamingHttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -345,6 +346,7 @@ def get_travel_topic_answer(message):
             "rain aur river conditions outdoor activities "
             "ko affect kar sakti hain."
         )
+        
 
     if any(
         word in text
