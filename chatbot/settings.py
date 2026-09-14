@@ -159,6 +159,12 @@ CSRF_TRUSTED_ORIGINS = [
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+# =========================================================
+# AI GEMINI API KEY
+# =========================================================
+
+GEMINI_API_KEY = "AQ.Ab8RN6LTHWqzYPWmjiaOnkgmbNug8rt7dKrT8IaN5G-JddISBA"
+
 
 # =========================================================
 # DEFAULT PRIMARY KEY
