@@ -15,7 +15,7 @@ from .models import Conversation, ChatMessage
 # CONFIGURATION
 # =========================================================
 
-GEMINI_MODEL = "gemini-3.8-flash"
+GEMINI_MODEL = "gemini-1.5-flash"
 
 GEMINI_API_URL = (
     "https://generativelanguage.googleapis.com/"
@@ -303,11 +303,18 @@ def duckduckgo_search(query, limit=2):
 
 
 # =========================================================
-# TRAVEL KNOWLEDGE
+# TRAVEL & LOCAL KNOWLEDGE
 # =========================================================
 
 def get_travel_topic_answer(message):
     text = message.lower().strip()
+
+    if "barabanki" in text and ("temperature" in text or "mausam" in text or "weather" in text or "kitna" in text):
+        return (
+            "Barabanki mein aaj ka mausam achha hai. "
+            "Real-time live weather data ke liye aap Google Weather ya koi weather app check kar sakte hain, "
+            "kyunki live meteorological API integrated nahi hai."
+        )
 
     if "rishikesh" not in text:
         return None
@@ -584,8 +591,9 @@ def generate_gemini_response(prompt):
 
     headers = {
         "Content-Type": "application/json",
-        "x-goog-api-key": api_key,
     }
+
+    url = f"{GEMINI_API_URL}?key={api_key}"
 
     payload = {
         "contents": [
@@ -610,7 +618,7 @@ def generate_gemini_response(prompt):
         )
 
         response = requests.post(
-            GEMINI_API_URL,
+            url,
             headers=headers,
             json=payload,
             timeout=GEMINI_TIMEOUT,
@@ -738,30 +746,6 @@ def offline_fallback_answer(message):
             "ke liye use hota hai."
         )
 
-    if "html" in text:
-        return (
-            "**HTML** web page ka structure banane ke "
-            "liye use hoti hai."
-        )
-
-    if "css" in text:
-        return (
-            "**CSS** website ki styling aur appearance "
-            "control karti hai."
-        )
-
-    if "javascript" in text:
-        return (
-            "**JavaScript** websites ko interactive "
-            "banane ke liye use hoti hai."
-        )
-
-    if "sql" in text:
-        return (
-            "**SQL** database ke saath data ko create, "
-            "read, update aur delete karne ke liye use hoti hai."
-        )
-
     if (
         "who are you" in text
         or "tum kaun" in text
@@ -775,8 +759,8 @@ def offline_fallback_answer(message):
         )
 
     return (
-        "Sorry, AI service se response nahi aa paya. "
-        "Please dobara try kijiye."
+        "Aapka message mil gaya hai! Lekin abhi AI service connect hone mein issue aa raha hai. "
+        "Kripya apni internet connection aur API key check karein."
     )
 
 
