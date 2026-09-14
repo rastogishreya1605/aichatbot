@@ -346,7 +346,6 @@ def get_travel_topic_answer(message):
             "rain aur river conditions outdoor activities "
             "ko affect kar sakti hain."
         )
-        
 
     if any(
         word in text
@@ -574,9 +573,7 @@ def update_conversation_title(
 # =========================================================
 
 def generate_gemini_response(prompt):
-    api_key = os.environ.get(
-        "GEMINI_API_KEY"
-    )
+    api_key = getattr(settings, "GEMINI_API_KEY", None) or os.environ.get("GEMINI_API_KEY")
 
     if not api_key:
         print(
